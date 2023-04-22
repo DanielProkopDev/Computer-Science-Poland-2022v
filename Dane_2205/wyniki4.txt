@@ -1,0 +1,3 @@
+4.1. wynik:  18
+4.2. wynik:  Najwiecej czynnikow pierwszych ma cyfra: 99792 Liczba czynnikow pierwszych to: 10 jej czynniki pierwsze to: [2, 2, 2, 2, 3, 3, 3, 3, 7, 11]
+4.3. wynik:  Najwiecej roznych czynnikow pierwszych ma cyfra: 62790 Liczba roznych czynnikow pierwszych to: 6 jej czynniki pierwsze to: [2, 3, 5, 7, 13, 23]
