@@ -1,24 +1,37 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello world!");
 
-        //Liczby.getNumbersOneandLast(Liczby.getPath1());
+Liczby liczbyObject = new Liczby();
+/**     LOOPY APPROACH--->
+ *
+        List<List<Integer>> dobreTrojki = liczbyObject.getDobreTrojki(liczbyObject.getLiczby());
+        List<List<Integer>> dobrePiatki = liczbyObject.getDobrePiatki(liczbyObject.getLiczby());
 
-        Liczby.dobraTrojka(Liczby.getPath1());
+        int iloscDobrychTrojek = dobreTrojki.size();
+        int iloscDobrychPiatek = dobrePiatki.size();
 
-        //Zapisz.createFile();
+        System.out.println("a) Podaj, ile jest dobrych trójek wśród liczb występujących w pliku liczby.txt: " +
+                iloscDobrychTrojek);
+        System.out.println("b) Podaj, ile jest dobrych piątek wśród liczb występujących w pliku liczby.txt: " +
+                iloscDobrychPiatek);
+ */
+/**    Recursive --->*/
 
-       // Zapisz.zapiszWynik("4.1.",Liczby.getNumbersOneandLast(Liczby.getPath1()));
+        List<List<Integer>> dobreTrojki1 = new ArrayList<>();
+       List<List<Integer>> dobrePiatki1 = new ArrayList<>();
 
-        //System.out.println(Liczby.czynnikPierwszy(Liczby.getPath1()));
-        //System.out.println(Liczby.czynnikPierwszyRozny(Liczby.getPath1()));
-        //Zapisz.zapiszWynik("4.1.",Liczby.getNumbersOneandLast(Liczby.getPath1()),"4.2.",Liczby.czynnikPierwszy(Liczby.getPath1()),"4.3.",Liczby.czynnikPierwszyRozny(Liczby.getPath1()));
+        liczbyObject.findDobreTrojki(liczbyObject.getLiczby1(), new ArrayList<>(), dobreTrojki1);
+        liczbyObject.findDobrePiatki(liczbyObject.getLiczby1(), new ArrayList<>(), dobrePiatki1);
 
-
-
-
+        System.out.println("a) Podaj, ile jest dobrych trójek wśród liczb występujących w pliku liczby.txt: " +
+              dobreTrojki1.size());
+        System.out.println("b) Podaj, ile jest dobrych piątek wśród liczb występujących w pliku liczby.txt: " +
+               dobrePiatki1.size());
 
     }
 }

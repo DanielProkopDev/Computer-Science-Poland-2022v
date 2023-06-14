@@ -1,33 +1,64 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
+import java.util.*;
+
 
 public class Liczby implements Serializable {
 
-String fileName;
 
-public void setFileName(String fileName){
-    this.fileName=fileName;
-    System.out.println(this.fileName);
-}
-    static Path path1 = Paths.get("./Dane_2205/przyklad.txt");
 
-    public String getFileName() {
-        return fileName;
+
+
+    public Set<Integer> getLiczby(){
+        Set<Integer> liczbySet = new HashSet<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("./Dane_2205/przyklad.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                liczbySet.add(Integer.parseInt(line.trim()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return liczbySet;
+
     }
 
-    public static Path getPath1() {
-        return path1;
+
+    public  List<Integer> getLiczby1(){
+        List<Integer> liczby = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("./Dane_2205/przyklad.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                liczby.add(Integer.parseInt(line));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Collections.sort(liczby);
+        return liczby;
     }
 
+    public void writeLiczby(List<String> dobreTrojkiPiatki){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Dane_2205/wyniki.txt"))) {
+            for (String trojka : dobreTrojkiPiatki) {
+                writer.write(trojka + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public  boolean isDobraTrojka(int a, int b, int c) {
+        return b % a == 0 && c % b == 0 && a != b && b != c;
+    }
+
+    public  boolean isDobraPiatka(int a, int b, int c, int d, int e) {
+        return b % a == 0 && c % b == 0 && d % c == 0 && e % d == 0 &&
+                a != b && b != c && c != d && d != e;
+    }
     public static String getNumbersOneandLast(Path path){
         try{
             int count=0;
@@ -124,131 +155,122 @@ public void setFileName(String fileName){
         return odpowiedz1;
     }
 
-    public static void dobraPiatka(Path path) throws IOException {
-        final List<String> numbers = Files.readAllLines(path);
-        System.out.println(numbers);
+    public  List<List<Integer>> getDobrePiatki(Set<Integer> liczbySet) {
+        List<Integer> liczby = new ArrayList<>(liczbySet);
+        Collections.sort(liczby);
+        List<List<Integer>> dobrePiatki = new ArrayList<>();
+        int n = liczby.size();
 
-        List<List<String>> numberZ= new ArrayList<>();
-
-        for (int i = 0; i < numbers.size(); i++) {
-            List<String> number = new ArrayList<>();
-            List<String> numberX = new ArrayList<>();
-            int k = 2;
-            int n = Integer.parseInt(numbers.get(i));
-            number.add(String.valueOf(n));
-            System.out.print("\n" + n + " ");
-            while (k <= n) {
-                while ((n % k) == 0) {
-
-                    n /= k;
-                    if (n > 1) {
-                        System.out.print(n + " ");
-                        number.add(String.valueOf(n));
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    for (int l = k + 1; l < n; l++) {
+                        for (int m = l + 1; m < n; m++) {
+                            if (isDobraPiatka(liczby.get(i), liczby.get(j), liczby.get(k), liczby.get(l), liczby.get(m))) {
+                                List<Integer> piatka = new ArrayList<>();
+                                piatka.add(liczby.get(i));
+                                piatka.add(liczby.get(j));
+                                piatka.add(liczby.get(k));
+                                piatka.add(liczby.get(l));
+                                piatka.add(liczby.get(m));
+                                dobrePiatki.add(piatka);
+                            }
+                        }
                     }
                 }
-                ++k;
-
-            }
-            System.out.println(number);
-            if (number.size() > 5){
-                numberX.addAll(number);
-                System.out.println(numberX);
-                if (Integer.parseInt(numberX.get(numberX.size()-2))%Integer.parseInt(numberX.get(numberX.size()-1))==0){
-                numberZ.add(numberX);}
-                numberX.clear();
             }
         }
-        System.out.println("Liczba dobrych piatek to: "+ numberZ.size());
 
-
+        return dobrePiatki;
     }
-    public static void dobraTrojka(Path path) throws IOException {
-        final List<String> numbers = Files.readAllLines(path);
-        List<List<String>> numberZ = new ArrayList<>();
-        System.out.println(numbers);
+    public  List<List<Integer>> getDobreTrojki(Set<Integer> liczbySet) {
+        List<Integer> liczby = new ArrayList<>(liczbySet);
+        Collections.sort(liczby);
+        List<List<Integer>> dobreTrojki = new ArrayList<>();
+        int n = liczby.size();
 
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        int count = 0;
-        for (int i = 0; i < numbers.size(); i++) {
-            List<String> number = new ArrayList<>();
-            List<String> numberX = new ArrayList<>();
-
-
-            int k = 2;
-            int n = Integer.parseInt(numbers.get(i));
-
-
-            System.out.print("\n" + n + " ");
-            while (k <= n) {
-                while ((n % k) == 0) {
-
-                    n /= k;
-                    if (n > 1) {
-                        System.out.print(n + " ");
-                        number.add(String.valueOf(n));
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    if (isDobraTrojka(liczby.get(i), liczby.get(j), liczby.get(k))) {
+                        List<Integer> trojka = new ArrayList<>();
+                        trojka.add(liczby.get(i));
+                        trojka.add(liczby.get(j));
+                        trojka.add(liczby.get(k));
+                        dobreTrojki.add(trojka);
                     }
                 }
-                ++k;
-
             }
-            System.out.println(number);
-            if (number.size() == 2){
-                count = count +1;
-            }
-            if (number.size() == 3){
-                count = count +3;
-            }
-            if (number.size() == 4){
-                count = count +6;
-            }
-            if (number.size() == 5){
-                count = count +10;
-            }
-            if (number.size() == 6){
-                count = count +12;
-            }
-
         }
-        System.out.println("Liczba dobrych trojke to "+count);
 
-
-
-
+        return dobreTrojki;
     }
-    /** nie udana proba, ktorej lepiej unikac
-     * z = Integer.parseInt(number.get(0));
-     *      while (number.size() >0) {
-     *      if (numberX.size() == 3){
-     *      System.out.println(numberX);
-     *      numberZ.add(numberX);
-     *      numberX.clear();
-     *      }
-     *      System.out.println(number);
-     *      System.out.println("z =" + z);
-     *      number.remove(String.valueOf(z));
-     *      if (number.size() != 0) {
-     *      x = Integer.parseInt(number.get(0));
-     *      numberX.add(String.valueOf(x));
-     *      number.remove(String.valueOf(x));
-     *      y = Integer.parseInt(number.get(0));
-     *      numberX.add(String.valueOf(y));
-     *      number.remove(String.valueOf(y));
-     *
-     *
-     *      if (Integer.parseInt(numberX.get(0)) != x) {
-     *      numberX.add(String.valueOf(x));
-     *      }
-     *      if (Integer.parseInt(numberX.get(1)) != y) {
-     *      numberX.add(String.valueOf(y));
-     *      }
-     *      if (Integer.parseInt(numberX.get(numberX.size() - 1)) != z) {
-     *      numberX.add(String.valueOf(z));
-     *      }
-     *      }
-     *      }
-     */
+
+
+    //RECURSIVE APPROACH
+
+    public  boolean isDobraTrojka1(List<Integer> numbers) {
+        return numbers.get(1) % numbers.get(0) == 0 && numbers.get(2) % numbers.get(1) == 0 &&
+                !numbers.get(0).equals(numbers.get(1)) && !numbers.get(1).equals(numbers.get(2));
+    }
+
+    public boolean isDobraPiatka1(List<Integer> numbers) {
+        for (int i = 1; i < numbers.size(); i++) {
+            if (numbers.get(i) % numbers.get(i - 1) != 0) {
+                return false;
+            }
+        }
+
+        return new HashSet<>(numbers).size() == numbers.size();
+    }
+
+    public  void findDobreTrojki(List<Integer> numbers, List<Integer> current, List<List<Integer>> result) {
+        if (current.size() == 3) {
+            if (isDobraTrojka1(current)) {
+                result.add(new ArrayList<>(current));
+            }
+            return;
+        }
+
+        for (int i = 0; i < numbers.size(); i++) {
+            current.add(numbers.get(i));
+            findDobreTrojki(numbers, current, result);
+            current.remove(current.size() - 1);
+        }
+    }
+
+
+
+    public void findDobrePiatki(List<Integer> numbers, List<Integer> current, List<List<Integer>> result) {
+        if (current.size() == 5) {
+            if (isDobraPiatka1(current)) {
+                System.out.println(current);
+                result.add(new ArrayList<>(current));
+            }
+            return;
+        }
+
+        if (!current.isEmpty()) {
+            int lastNumber = current.get(current.size() - 1);
+            for (int i = 0; i < numbers.size(); i++) {
+                int number = numbers.get(i);
+                if (number % lastNumber == 0) {
+                    current.add(number);
+                    findDobrePiatki(numbers, current, result);
+                    current.remove(current.size() - 1);
+                }
+            }
+        } else {
+            for (int i = 0; i < numbers.size(); i++) {
+                int number = numbers.get(i);
+                current.add(number);
+                findDobrePiatki(numbers, current, result);
+                current.remove(current.size() - 1);
+            }
+        }
+    }
+
 
 
 }
+
