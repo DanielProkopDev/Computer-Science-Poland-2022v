@@ -12,7 +12,7 @@ public class DobraTrojka {
         int count=0;
         for(int i = 0; i<arr.size(); i++){
             int c = arr.get(i);
-            for(int j = arr.size()-1; j>0; j--){
+            for(int j = arr.size()-1; j>=0; j--){
                 int d = arr.get(j);
                 if (d%c==0&&d!=c){
                     for (int k = 0; k < arr.size(); k++) {
