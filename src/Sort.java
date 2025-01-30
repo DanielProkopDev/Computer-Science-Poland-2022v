@@ -32,6 +32,34 @@ public class Sort {
         System.out.println("\n"+count);
 
     }
+//Bubble sort
+    public static void bubbleSort(int[] a) {
 
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 1; j < a.length - i; j++) {
+                if (a[j-1] > a[j]) {
+                    int temp = a[j-1];
+                    a[j-1] = a[j];
+                    a[j] = temp;
+                }
+            }
+        }
+    }
+
+//Selection Sort
+    public static void selectionSort(int[] a) {
+        for (int i = a.length-1; i > 0; i--) {
+
+            int max=0;
+            for (int j = 1; j<=i; j++) {
+                if (a[max]<a[j]) {
+                    max=j;
+                }
+            }
+            int temp=a[max];
+            a[max]=a[i];
+            a[i]=temp;
+
+        }
 
 }
