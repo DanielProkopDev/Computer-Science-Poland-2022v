@@ -2,7 +2,7 @@
 //I will be adding sort implementations into this single class for fun.
 public class Sort {
 
-//Selection Sort
+
     public static void main(String[] args) {
 
         int count=0;
@@ -62,4 +62,20 @@ public class Sort {
 
         }
 
+}
+
+     //Insertion sort
+
+    public static void insertionSort(int[] a) {
+        int p,j;
+        for (int i=1; i<a.length; i++) {
+            p=a[i];
+            j=i-1;
+            while(j>=0 && a[j]>p) {
+                a[j+1]=a[j];
+                --j;
+            }
+            a[j+1]=p;
+        }
+    }
 }
