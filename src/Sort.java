@@ -114,6 +114,44 @@ public void mergeSort(int[] a, int left, int right){
 }
 
 
+//Bucket sort
+    //requires assumptions as for example: array should be evenly distributed if you aim for better complexity otherwise it would be O(n^2),
+    // we need to know difference between smallest and biggest value in the array etc. check below
+    //if we can fulfill assumptions it can be very fast sort algorithm, although including time spent on looping through
+    // the array to find biggest value etc isnt best idea -> but we can get that information before passing array to method
+    // that would change below implementation(keep that in mind)
+
+    public int dist(int i , int max, int numberOfBuckets){
+        return (int) ((double) i / max * (numberOfBuckets-1));
+    }
+
+    public void bucketSort(int[] a){
+       int nOB= (int) Math.sqrt(a.length);
+       int max = Integer.MIN_VALUE;
+       int index=0;
+       Comparator<Integer> comp= Comparator.naturalOrder();
+       Vector<Vector<Integer>> buckets = new Vector<>(nOB);
+
+        for (int i = 0; i < nOB; i++) {
+           buckets.add(new Vector<>());
+        }
+        for (int i : a){
+            max= Math.max(i,max);
+        }
+        for (int i : a){
+            buckets.get(dist(i,max,nOB)).add(i);
+        }
+        for (Vector<Integer> bucket: buckets){
+            bucket.sort(comp);
+        }
+
+       for (Vector<Integer> bucket: buckets){
+           for (int j=0;j<bucket.size();j++){
+               a[index] = bucket.get(j);
+               index++;
+           }
+       }
+    }
 
 
     
