@@ -4,6 +4,7 @@ public class PascalTriangle {
 //Revursive, cant align triangle properly on display, because we would have to run factorial recursive call twice,
     //first to get biggest number for given n to know its length, later on to apply that length for alignment
     //exactly what we have in method printPascal1()
+    //on top of that you will reach limit qucikly on int type, you can use long but still it won't let you go far because of fractional recursive function in which method will be computing huge numbers therefore printPascal1() is definitely way to go 
     public void printPascal(int n) {
 
        for(int i=0;i<=n;i++) {
