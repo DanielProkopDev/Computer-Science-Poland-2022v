@@ -78,4 +78,43 @@ public class Sort {
             a[j+1]=p;
         }
     }
+
+//Merge sort
+    int[] tempTab;
+    public  void merge(int[] a, int left, int mid, int right){
+        tempTab=new int[a.length];
+        int i,j;
+
+        for (i = mid+1;i>left;i--){
+            tempTab[i-1]=a[i-1];
+        }
+
+        for (j = mid; j<right; j++){
+            tempTab[right+mid-j]=a[j+1];
+        }
+
+        for (int k = left;k<=right;k++){
+            if (tempTab[j]<tempTab[i]){
+                a[k]=tempTab[j--];
+            }else {
+                a[k]=tempTab[i++];
+            }
+        }
+
+    }
+
+public void mergeSort(int[] a, int left, int right){
+        if (right<=left){
+            return;
+        }
+        int mid = (right+left)/2;
+        mergeSort(a, left, mid);
+        mergeSort(a, mid+1, right);
+        merge(a, left, mid, right);
+}
+
+
+
+
+    
 }
